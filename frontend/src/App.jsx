@@ -17,7 +17,7 @@ import { DataProvider } from './contexts/DataContext.jsx'
 
 function App() {
   return (
-    <Router basename="/HelioSentinel">
+    <Router>
       <DataProvider>
         <Routes>
           {/* Rutas principales */}
