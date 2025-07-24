@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 
 // Importa tus componentes de página
@@ -17,7 +17,7 @@ import { DataProvider } from './contexts/DataContext.jsx'
 
 function App() {
   return (
-    <Router basename="/">
+    <Router basename="/HelioSentinel">
       <DataProvider>
         <Routes>
           {/* Rutas principales */}
