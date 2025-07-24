@@ -106,24 +106,24 @@ const LandingPage = () => {
 
   const newsItems = [
     {
-      title: "Nuevas celdas solares de perovskita rompen récords de eficiencia",
-      source: "SolarDaily",
-      url: "https://www.solardaily.com/reports/New_perovskite_solar_cells_break_efficiency_records_999.html"
-    },
-    {
-      title: "Colombia: Crecimiento exponencial en la capacidad solar instalada",
-      source: "Energía Limpia Hoy",
-      url: "https://www.energialimpiahoy.com/colombia-crecimiento-exponencial-capacidad-solar"
-    },
-    {
-      title: "Mercado global de energía solar alcanzará los $300 mil millones para 2030",
-      source: "Global Energy News",
-      url: "https://www.globalenergynews.com/solar-market-forecast-2030"
-    },
-    {
-      title: "Los beneficios económicos y ambientales de la energía solar en LATAM",
+      title: "Las cinco tecnologías que marcarán el futuro de la fotovoltaica",
       source: "Renovables Latam",
-      url: "https://www.renovableslatam.com/beneficios-energia-solar"
+      url: "https://www.unef.es/es/comunicacion/comunicacion-post/las-cinco-tecnologias-que-marcaran-el-futuro-de-la-fotovoltaica"
+    },
+    {
+      title: "LONGi marca un nuevo récord mundial de eficiencia de celdas solares",
+      source: "SolarDaily",
+      url: "https://www.longi.com/es/news/record-mundial-tandem-perovskita-silicio-cristalino/"
+    },
+    {
+      title: "Colombia: más del 10% de la energía consumida en Colombia ya es solar",
+      source: "Energía Limpia Hoy",
+      url: "https://www.presidencia.gov.co/prensa/Paginas/Avance-en-Transicion-Energetica-mas-del-10-porciento-de-la-energia-consumida-en-Colombia-ya-es-solar-250210.aspx"
+    },
+    {
+      title: "Colombia necesita US$3.300 millones para cumplir meta de energía solar en 2026",
+      source: "Global Energy News",
+      url: "https://www.elespectador.com/economia/colombia-necesita-us3300-millones-para-cumplir-meta-de-energia-solar-en-2026/"
     }
   ];
 
