@@ -1,0 +1,131 @@
+version: '3.8'
+
+services:
+  # Base de datos PostgreSQL
+  database:
+    image: postgres:15-alpine
+    container_name: heliosentinel-db
+    environment:
+      POSTGRES_DB: heliosentinel
+      POSTGRES_USER: heliosentinel
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-heliosentinel123}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - heliosentinel-network
+    restart: unless-stopped
+
+  # Backend Flask
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: heliosentinel-backend
+    environment:
+      FLASK_ENV: ${FLASK_ENV:-production}
+      DATABASE_URL: postgresql://heliosentinel:${DB_PASSWORD:-heliosentinel123}@database:5432/heliosentinel
+      SECRET_KEY: ${SECRET_KEY:-your-secret-key-here}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
+    volumes:
+      - ./backend/logs:/app/logs
+      - ./backend/uploads:/app/uploads
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
+    networks:
+      - heliosentinel-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend React (para desarrollo)
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: heliosentinel-frontend-dev
+    environment:
+      VITE_API_BASE_URL: http://localhost:5000/api
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - heliosentinel-network
+    profiles:
+      - development
+
+  # Frontend React (para producción)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: heliosentinel-frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+    networks:
+      - heliosentinel-network
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # Redis para cache (opcional)
+  redis:
+    image: redis:7-alpine
+    container_name: heliosentinel-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - heliosentinel-network
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # Nginx como proxy reverso (producción)
+  nginx:
+    image: nginx:alpine
+    container_name: heliosentinel-nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - heliosentinel-network
+    restart: unless-stopped
+    profiles:
+      - production
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  heliosentinel-network:
+    driver: bridge
+
+# Configuraciones por perfil
+# Desarrollo: docker-compose --profile development up
+# Producción: docker-compose --profile production up
+
