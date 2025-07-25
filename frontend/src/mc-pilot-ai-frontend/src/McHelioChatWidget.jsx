@@ -29,7 +29,7 @@ function App() {
     {
       id: 1,
       type: 'agent',
-      content: '¡Hola! Soy Mc-Pilot AI, tu asesor experto en sistemas fotovoltaicos para climas tropicales. ¿En qué puedo ayudarte hoy?',
+      content: '¡Hola! Soy McHelio Agent, tu asesor experto en sistemas fotovoltaicos para climas tropicales. ¿En qué puedo ayudarte hoy?',
       timestamp: new Date().toISOString(),
       tools_used: []
     }
